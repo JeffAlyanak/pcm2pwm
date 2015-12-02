@@ -55,7 +55,7 @@ convert (FILE * fp, int length, int highValue, int lowValue)
 		}
 
 	      if (count > 0xFF)
-		count = 0xFF;	// This hardcoded truncation will fuck with any extremely low frequncy sounds you have by preventing the period time from being any higher than 255. This frequency floor will be different depending on your playback routine rate.
+		count = 0xFF;	// This hardcoded truncation will mess with any extremely low frequncy sounds you have by preventing the period time from being any higher than 255. This frequency floor will be different depending on your playback routine rate.
 	      printf ("$%2.2X", count);	// Print the period value in the correct format ($00-$FF).
 	      count = 0;
 	      oldState = flipState;
@@ -84,7 +84,7 @@ convert (FILE * fp, int length, int highValue, int lowValue)
 		}
 
 	      if (count > 0xFF)
-		count = 0xFF;	// This hardcoded truncation will fuck with any extremely low frequency sounds by preventing the period from being any higher than 255. This frequency floor will depending on your playback routine rate.
+		count = 0xFF;	// This hardcoded truncation will mess with any extremely low frequency sounds by preventing the period from being any higher than 255. This frequency floor will depending on your playback routine rate.
 	      printf ("$%2.2X", count);	// Print the period value in the correct format ($00-$FF).
 	      count = 0;
 	      oldState = flipState;
