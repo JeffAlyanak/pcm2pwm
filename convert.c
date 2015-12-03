@@ -1,11 +1,7 @@
 /* convert.c
  *
- * Convert function takes a file pointer
- * 
- * routines.
- *
- * See readme for basic use case.
- *
+ * Convert function takes a file pointer, file length, high and low crossover values. Outputs the pulse width
+ * intervals in a format designed for use in assembly language latch audio routines.
  *
  * code: jeff alyanak
 */
@@ -16,7 +12,7 @@
 
 
 int
-convert (FILE * fp, int length, int highValue, int lowValue)
+convert (FILE *fp, int length, int highValue, int lowValue)
 {
 
   int count = 0;		// Count period between zero cross-overs.
@@ -28,7 +24,7 @@ convert (FILE * fp, int length, int highValue, int lowValue)
 
   while (i < length - 44)
     {				// Move through each byte in the file. Hardcoded to skip past the header.
-      fseek (fp, (44 + i), SEEK_SET);	// TO-DO: Look at how wav headers are formed and programmatically skip header.
+      fseek (fp, (44 + i), SEEK_SET);	// Skip the 44 bytes of the wav header.
       fread (&c, 1, 1, fp);
 
       if (c >= highValue)

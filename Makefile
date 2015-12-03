@@ -1,7 +1,10 @@
 CC=gcc 
 CFLAGS=-Wall
-main: pcm2pwm.o convert.o
-	gcc -o pcm2pwm pcm2pwm.o convert.o
-	
+main: pcm2pwm.o header.o convert.o
+	gcc -o pcm2pwm pcm2pwm.o header.o convert.o
+
 clean:
-	rm -f pcm2pwm pcm2pwm.o convert.o
+	rm -f  pcm2pwm.o header.o convert.o
+	
+clean-all:
+	rm -f pcm2pwm pcm2pwm.o header.o convert.o
