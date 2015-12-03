@@ -73,3 +73,4 @@ Version History
 
 0.2 - Basic functionality
 0.5 - Added the ability to set high and low crossover values.
+0.7 - pcm2pwm now checks the input file's header to ensure compatibility.
