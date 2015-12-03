@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "convert.h"
+#include "header.h"
 
 FILE *fp;			// File pointer.
 int length = 0;			// File length in bytes.
@@ -52,8 +53,6 @@ main (int argc, char *argv[])
 	}
     }
 
-
-
   // Open file and ensure it opened correctly.
   fp = fopen (argv[1], "rb");
   if (fp == NULL)
@@ -63,6 +62,13 @@ main (int argc, char *argv[])
       return EXIT_FAILURE;
     }
 
+  // Check header info, exit if input file is incompatible.
+  if (!(header (fp)))
+    {
+      return EXIT_FAILURE;
+    }
+    
+    
   // Ensure the end of file can be seeked correctly.
   if (fseek (fp, 0, SEEK_END))
     {
