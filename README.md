@@ -1,4 +1,4 @@
-# pcm2pwm 0.7 - a utility for 1-bit audio weirdos   // code by:  jeffalyanak@gmail.com
+# pcm2pwm 0.7 - a utility for 1-bit audio weirdos   // code by:  jeff@alyanak.com
 pcm2pwm is a simply utility for converting 8-bit PCM wave audio into a differential
 PWM byte stream. It's output is intended for use with any 1-bit audio devices which
 require a relatively high degree of compression.
