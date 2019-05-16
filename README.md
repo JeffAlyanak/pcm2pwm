@@ -26,6 +26,10 @@ This would trigger the high and low states slightly earlier and might be useful 
 wav file isn't very loud. Moving these two values too close or too far from your average
 amplitude will ruin timbre of the resulting output sound. Experiment to see what works best.
 
+You may also add the `-h` option before the input file to toggle an inverted output format suitable for [Houston Tracker 2](https://github.com/utz82/HoustonTracker2).
+
+`$ pcm2pwm -h input.wav <...>`
+
 ##Preparing your input audio
 With the addition - in version 0.5 - of custom high and low crossovers, a wider range of
 audio can be run through the pcm2pwm tool. However, the following advice may still return
@@ -65,3 +69,4 @@ Pretty simple, eh!
   * 0.2 - Basic functionality
   * 0.5 - Added the ability to set high and low crossover values.
   * 0.7 - pcm2pwm now checks the input file's header to ensure compatibility.
+  * 0.8 - Added the -h option for outputting in a Houston Tracker 2 format.
