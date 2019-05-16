@@ -1,4 +1,4 @@
-# pcm2pwm 0.7 - a utility for 1-bit audio weirdos   // code by:  jeff@alyanak.ca
+# pcm2pwm 0.8 - a utility for 1-bit audio weirdos   // code by:  jeff@alyanak.ca
 pcm2pwm is a simply utility for converting 8-bit PCM wave audio into a differential
 PWM byte stream. It's output is intended for use with any 1-bit audio devices which
 require a relatively high degree of compression.
@@ -25,6 +25,10 @@ values must be between 255 and 0. For example:
 This would trigger the high and low states slightly earlier and might be useful if your input
 wav file isn't very loud. Moving these two values too close or too far from your average
 amplitude will ruin timbre of the resulting output sound. Experiment to see what works best.
+
+You may also add the `-h` option before the input file to toggle an inverted output format suitable for [Houston Tracker 2](https://github.com/utz82/HoustonTracker2).
+
+`$ pcm2pwm -h input.wav <...>`
 
 ##Preparing your input audio
 With the addition - in version 0.5 - of custom high and low crossovers, a wider range of
@@ -65,3 +69,4 @@ Pretty simple, eh!
   * 0.2 - Basic functionality
   * 0.5 - Added the ability to set high and low crossover values.
   * 0.7 - pcm2pwm now checks the input file's header to ensure compatibility.
+  * 0.8 - Added the -h option for outputting in a Houston Tracker 2 format.

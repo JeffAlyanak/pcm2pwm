@@ -6,11 +6,12 @@
  * code: jeff alyanak
 */
 
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "convert.h"
 
-int convert (FILE *fp, int length, int highValue, int lowValue)
+int convert (FILE *fp, int length, int highValue, int lowValue, int format)
 {
 	int count = 0;			// Count period between zero cross-overs.
 	int flipState = 1;		// High or low state.
@@ -50,7 +51,8 @@ int convert (FILE *fp, int length, int highValue, int lowValue)
 
 				if (count > 0xFF) count = 0xFF;	// This hardcoded truncation will mess with any extremely low frequncy sounds you have by preventing the period time from being any higher than 255. This frequency floor will be different depending on your playback routine rate.
 
-				printf ("$%2.2X", count);	// Print the period value in the correct format ($00-$FF).
+				printf ("$%02X", ( (1-format)*(count) + (format)*( (INT_MAX - count) - (INT_MAX - 0xFF) ) ));	// Print the period value in the correct format ($00-$FF).
+
 				count = 0;
 				oldState = flipState;
 			}
