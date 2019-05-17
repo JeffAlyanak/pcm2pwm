@@ -1,11 +1,18 @@
+<<<<<<< Updated upstream
 # pcm2pwm 0.7 - a utility for 1-bit audio weirdos   // code by:  jeff@alyanak.ca
 pcm2pwm is a simply utility for converting 8-bit PCM wave audio into a differential
 PWM byte stream. It's output is intended for use with any 1-bit audio devices which
 require a relatively high degree of compression.
+=======
+# pcm2pwm 0.8 - a utility for 1-bit audio weirdos   // code by:  jeff@alyanak.ca
+pcm2pwm is a simply utility for converting 8-bit PCM wave audio into a delta PWM byte stream.
+It's output is intended for use with any 1-bit audio devices which require a simple playback
+routine or relatively high degree of compression.
+>>>>>>> Stashed changes
 
 
 ## Running the utility
-pcm2pwm is currently an extremely limited tool. For results that aren't useless bytes, feed it
+pcm2pwm is currently an extremely limited tool. It will reject formats it cannot read, feed it
 only mono 8-bit wave files. Audacity is a great, multi-platform tool for preparing your audio
 (see section below) and will allow you to export in this format. Basic use is simple just run
 the tool and hand it a filename:
