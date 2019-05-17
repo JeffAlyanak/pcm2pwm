@@ -1,14 +1,7 @@
-<<<<<<< Updated upstream
 # pcm2pwm 0.7 - a utility for 1-bit audio weirdos   // code by:  jeff@alyanak.ca
-pcm2pwm is a simply utility for converting 8-bit PCM wave audio into a differential
-PWM byte stream. It's output is intended for use with any 1-bit audio devices which
-require a relatively high degree of compression.
-=======
-# pcm2pwm 0.8 - a utility for 1-bit audio weirdos   // code by:  jeff@alyanak.ca
 pcm2pwm is a simply utility for converting 8-bit PCM wave audio into a delta PWM byte stream.
 It's output is intended for use with any 1-bit audio devices which require a simple playback
 routine or relatively high degree of compression.
->>>>>>> Stashed changes
 
 
 ## Running the utility
