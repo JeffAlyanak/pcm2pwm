@@ -3,7 +3,7 @@ pcm2pwm is a simply utility for converting 8-bit PCM wave audio into a delta PWM
 It's output is intended for use with any 1-bit audio devices which require a simple playback
 routine or relatively high degree of compression.
 
-[![GitHub version](https://img.shields.io/github/release/jeffalyanak/pcm2pwm.svg)](https://github.com/jeffalyanak/pcm2pwm/releases/latest)
+[![GitHub version](https://img.shields.io/github/pre-release/jeffalyanak/pcm2pwm.svg)](https://github.com/jeffalyanak/pcm2pwm/releases/latest)
 [![License](https://img.shields.io/github/license/jeffalyanak/pcm2pwm.svg)](https://github.com/jeffalyanak/pcm2pwm/blob/development/LICENSE.txt)
 
 ## Running the utility
