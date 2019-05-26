@@ -5,6 +5,7 @@ routine or relatively high degree of compression.
 
 [![GitHub version](https://img.shields.io/github/release-pre/jeffalyanak/pcm2pwm.svg)](https://github.com/jeffalyanak/pcm2pwm/releases/latest)
 [![License](https://img.shields.io/github/license/jeffalyanak/pcm2pwm.svg)](https://github.com/jeffalyanak/pcm2pwm/blob/development/LICENSE.txt)
+[![PGP](https://img.shields.io/keybase/pgp/jeffalyanak.svg?label=pgp)](https://jeff.alyanak.ca/pgp)
 
 ## Running the utility
 pcm2pwm is currently an extremely limited tool. It will reject formats it cannot read, feed it
