@@ -33,20 +33,17 @@ As of version 0.8+, you may also add the `-h` option before the input file to to
 
 `$ pcm2pwm -h input.wav <...>`
 
-<div style="padding:5px;border:1px solid #777;"><i>
-Remember that HT2 requires a <b>0x00</b> terminator after your sample data.
-</i></div>
+> _Remember that HT2 requires a <b>0x00</b> terminator after your sample data._
 
 ## Preparing your input audio
 With the addition - in version 0.5+ - of custom high and low crossovers, a wider range of
 audio can be run through the pcm2pwm tool. However, the following advice may still return
 the best results:
 
-<div style="padding:5px;border:1px solid #777;"><i>
-The input audio must be compressed, limited or otherwise overdriven in order to keep most of the samples below 3 and above 252 — basically, you want it to be clipping, or nearly clipping, as much as possible.
 
-The easiest way to do this is to use an audio program like audacity to heavily amplify your your audio with the "allow clipping" box ticked. If you know what you're doing with audio then you already know the tricks for maximizing your output "loudness", do this to the extreme.
-</i></div>
+> _The input audio must be compressed, limited or otherwise overdriven in order to keep most of the samples below 3 and above 252 — basically, you want it to be clipping, or nearly clipping, as much as possible._
+
+> _The easiest way to do this is to use an audio program like audacity to heavily amplify your your audio with the "allow clipping" box ticked. If you know what you're doing with audio then you already know the tricks for maximizing your output "loudness", do this to the extreme._
 
 ## Using the output
 Each output byte represents the number of samples since a zero-crossover. That is
