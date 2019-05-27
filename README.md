@@ -1,13 +1,16 @@
-# pcm2pwm 0.7 - a utility for 1-bit audio weirdos   // code by:  jeff@alyanak.ca
+# pcm2pwm 0.8 - a utility for 1-bit audio weirdos   // code by:  jeff@alyanak.ca
 pcm2pwm is a simply utility for converting 8-bit PCM wave audio into a delta PWM byte stream.
 It's output is intended for use with any 1-bit audio devices which require a simple playback
-routine or relatively high degree of compression.
+routine and/or relatively high degree of compression.
 
+[![GitHub version](https://img.shields.io/github/release-pre/jeffalyanak/pcm2pwm.svg)](https://github.com/jeffalyanak/pcm2pwm/releases/latest)
+[![License](https://img.shields.io/github/license/jeffalyanak/pcm2pwm.svg)](https://github.com/jeffalyanak/pcm2pwm/blob/development/LICENSE.txt)
+[![PGP](https://img.shields.io/keybase/pgp/jeffalyanak.svg?label=pgp)](https://jeff.alyanak.ca/pgp)
 
 ## Running the utility
 pcm2pwm is currently an extremely limited tool. It will reject formats it cannot read, feed it
-only mono 8-bit wave files. Audacity is a great, multi-platform tool for preparing your audio
-(see section below) and will allow you to export in this format. Basic use is simple just run
+**only mono 8-bit wave files**. Audacity is a great, multi-platform tool for preparing your audio
+(see section below) and will allow you to export in this format. Basic use is simple, just run
 the tool and hand it a filename:
 
 `$ pcm2pwm input.wav`
@@ -24,24 +27,23 @@ values must be between 255 and 0. For example:
 
 This would trigger the high and low states slightly earlier and might be useful if your input
 wav file isn't very loud. Moving these two values too close or too far from your average
-amplitude will ruin timbre of the resulting output sound. Experiment to see what works best.
+amplitude will ruin the timbre of the resulting output sound. Experiment to see what works best, optimal values may differ depending on the playback routine.
 
-You may also add the `-h` option before the input file to toggle an inverted output format suitable for [Houston Tracker 2](https://github.com/utz82/HoustonTracker2).
+As of version 0.8+, you may also add the `-h` option before the input file to toggle an inverted output format suitable for [Houston Tracker 2](https://github.com/utz82/HoustonTracker2).
 
 `$ pcm2pwm -h input.wav <...>`
 
-##Preparing your input audio
-With the addition - in version 0.5 - of custom high and low crossovers, a wider range of
+> _Remember that HT2 requires a <b>0x00</b> terminator after your sample data._
+
+## Preparing your input audio
+With the addition - in version 0.5+ - of custom high and low crossovers, a wider range of
 audio can be run through the pcm2pwm tool. However, the following advice may still return
 the best results:
 
-  _The input audio must be compressed, limited or otherwise overdriven in order to keep 
-  most of the samples below 3 and above 252 (basically, you want it to be clipping or
-  nearly clipping as much as possible. The easiest way to do this is to use an audio
-  program like audacity to heavily amplify your your audio with the "allow clipping"
-  box ticked. If you know what you're doing with audio then you already know the tricks
-  for maximizing your output "loudness", do this to the extreme._
 
+> _The input audio must be compressed, limited or otherwise overdriven in order to keep most of the samples below 3 and above 252 — basically, you want it to be clipping, or nearly clipping, as much as possible._
+
+> _The easiest way to do this is to use an audio program like audacity to heavily amplify your your audio with the "allow clipping" box ticked. If you know what you're doing with audio then you already know the tricks for maximizing your output "loudness", do this to the extreme._
 
 ## Using the output
 Each output byte represents the number of samples since a zero-crossover. That is
