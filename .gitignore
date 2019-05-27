@@ -1,2 +1,3 @@
- .vscode/
+ .vscode/**
  *.o
+pcm2pwm
