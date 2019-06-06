@@ -1,4 +1,4 @@
-# pcm2pwm 0.8 - a utility for 1-bit audio weirdos   // code by:  jeff@alyanak.ca
+# pcm2pwm 0.8.1 - a utility for 1-bit audio weirdos   // code by:  jeff@alyanak.ca
 pcm2pwm is a simply utility for converting 8-bit PCM wave audio into a delta PWM byte stream.
 It's output is intended for use with any 1-bit audio devices which require a simple playback
 routine and/or relatively high degree of compression.
@@ -68,7 +68,8 @@ Pretty simple, eh!
 
 ### Version History
 
-  * 0.2 - Basic functionality
-  * 0.5 - Added the ability to set high and low crossover values.
-  * 0.7 - pcm2pwm now checks the input file's header to ensure compatibility.
-  * 0.8 - Added the -h option for outputting in a Houston Tracker 2 format.
+  * 0.2   - Basic functionality
+  * 0.5   - Added the ability to set high and low crossover values.
+  * 0.7   - pcm2pwm now checks the input file's header to ensure compatibility.
+  * 0.8   - Added the -h option for outputting in a Houston Tracker 2 format.
+  * 0.8.1 - Bugfix affecting the conversion process. Should produce better output than before.
