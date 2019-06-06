@@ -28,7 +28,7 @@ int convert (FILE *fp, int length, int highValue, int lowValue, int format)
 		if (c >= highValue || c <= lowValue)	// High state defaults to any sample above 252. Low state is any sample below 3.
 		{
 			if (flipState == 1 && c <= lowValue) flipState = 2;
-			if (flipState == 2 && c >= lowValue) flipState = 1;
+			if (flipState == 2 && c >= highValue) flipState = 1;
 
 			if (flipState != oldState)	// This is a zero cross-over, write out the time since last crossover (count) and reset it.
 			{			
