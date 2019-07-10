@@ -6,6 +6,7 @@ routine and/or relatively high degree of compression.
 [![GitHub version](https://img.shields.io/github/release-pre/jeffalyanak/pcm2pwm.svg)](https://github.com/jeffalyanak/pcm2pwm/releases/latest)
 [![License](https://img.shields.io/github/license/jeffalyanak/pcm2pwm.svg)](https://github.com/jeffalyanak/pcm2pwm/blob/development/LICENSE.txt)
 [![Donate](https://img.shields.io/badge/donate--green.svg)](https://jeff.alyanak.ca/donate)
+[![Matrix](https://img.shields.io/matrix/pcm2pwm:social.rights.ninja.svg)](https://matrix.to/#/#pcm2pwm:social.rights.ninja)
 [![PGP](https://img.shields.io/keybase/pgp/jeffalyanak.svg?label=pgp)](https://jeff.alyanak.ca/pgp)
 
 ## Running the utility
