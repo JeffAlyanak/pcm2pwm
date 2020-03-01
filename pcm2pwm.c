@@ -19,7 +19,9 @@
 #include "convert.h"
 #include "header.h"
 
-FILE *fp;				// File pointer.
+FILE *infile;			// Audio input file pointer.
+FILE *outfile;			// Binary output file pointer.
+
 int length = 0;			// File length in bytes.
 int highValue = 0xFC;	// Default high crossover.
 int lowValue = 0x03;	// Default low crossover
@@ -30,6 +32,7 @@ int format_dasm = 0;
 int format_bin	= 0;
 
 char *file_name = NULL;
+char *bin_name  = NULL;
 
 int main (int argc, char **argv)
 {
@@ -38,7 +41,7 @@ int main (int argc, char **argv)
 
 	// getopt argument handling
 	int option_index = 0;
-	while (( option_index = getopt(argc, argv, "i:H:L:hdb")) != -1)
+	while (( option_index = getopt(argc, argv, "i:H:L:b:hd")) != -1)
 	{
 		switch(option_index)
 		{
@@ -86,13 +89,16 @@ int main (int argc, char **argv)
 					return 1;
 				}
 				format_bin = 1;
+				bin_name = optarg;
 				break;
 			// Handle missing arguments
+			// TODO: Contextual error messages
 			case '?':
 				if (
 					optopt == 'i' ||
 					optopt == 'H' ||
-					optopt == 'L'
+					optopt == 'L' ||
+					optopt == 'b'
 					)
 				{
 					printf("Option -%c requires an argument.\n", optopt);
@@ -108,9 +114,15 @@ int main (int argc, char **argv)
 	// Get actual format int
 	format =  (format_h | format_dasm << 1 | format_bin << 2);
 
+	// Open output if binary mode
+	if (format == 4)
+	{
+		outfile = fopen (bin_name, "wb");
+	}
+
 	// Open file and ensure it opened correctly.
-	fp = fopen (file_name, "rb");
-	if (fp == NULL)
+	infile = fopen (file_name, "rb");
+	if (infile == NULL)
 	{
 		fprintf (stderr, "Error opening file.\n");
 		perror (file_name);
@@ -118,22 +130,31 @@ int main (int argc, char **argv)
 	}
 
 	// Check header info, exit if input file is incompatible.
-	if (!(header (fp))) return EXIT_FAILURE;
+	if (!(header (infile))) return EXIT_FAILURE;
 
 	// Ensure the end of file can be seeked correctly.
-	if (fseek (fp, 0, SEEK_END))
+	if (fseek (infile, 0, SEEK_END))
 	{
-		fclose (fp);
+		fclose (infile);
 		return EXIT_FAILURE;
 	}
 
 	// Determine input file length.
-	length = ftell (fp);
-	rewind (fp);
+	length = ftell (infile);
+	rewind (infile);
 
-	convert (fp, length, highValue, lowValue, format);
-	printf ("\n");
+	convert (infile, outfile, length, highValue, lowValue, format);
 
+	// Close output if binary mode, add newline if not.
+	if (format == 4)
+	{
+		fclose(outfile);
+	}
+	else
+	{
+		printf ("\n");
+	}
+	
 	return (EXIT_SUCCESS);
 }
 
@@ -181,5 +202,9 @@ int print_usage()
 	// printf ("    only one may be selected\n");
 	printf ("        -h\n");
 	printf ("            Houston Tracker 2 output format (inverted values)\n");
+	printf ("        -d\n");
+	printf ("            DASM tabbed output format (\\t before each .byte)\n");
+	printf ("        -b\n");
+	printf ("            Output to a binary file, must provide filename\n");
 	return 1;
 }

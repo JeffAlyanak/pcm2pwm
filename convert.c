@@ -11,10 +11,8 @@
 #include <stdlib.h>
 #include "convert.h"
 
-int convert (FILE *fp, int length, int highValue, int lowValue, int format)
+int convert (FILE *infile, FILE *outfile, int length, int highValue, int lowValue, int format)
 {
-	FILE *storeFile;
-
 	int count = 0;			// Count period between zero cross-overs.
 	int flipState = 1;		// High or low state.
 	int oldState = 1;		// Previous state.
@@ -28,17 +26,11 @@ int convert (FILE *fp, int length, int highValue, int lowValue, int format)
 	// playback routine rate.
 	if (count > 0xFF) count = 0xFF;
 
-	// 
-	if (format == 4)
-	{
-		storeFile=fopen("audio.bin", "wb");
-	}
-
 	// Move through each byte in the file. Hardcoded to skip past the header.
 	while (i < length - 44)
 	{
-		fseek (fp, (44 + i), SEEK_SET);	// Skip the 44 bytes of the wav header.
-		fread (&c, 1, 1, fp);
+		fseek (infile, (44 + i), SEEK_SET);	// Skip the 44 bytes of the wav header.
+		fread (&c, 1, 1, infile);
 
 		if (c >= highValue || c <= lowValue)	// High state defaults to any sample above 252. Low state is any sample below 3.
 		{
@@ -79,7 +71,7 @@ int convert (FILE *fp, int length, int highValue, int lowValue, int format)
 				}
 				else
 				{
-					fwrite(&count,1,1,storeFile);
+					fwrite(&count,1,1,outfile);
 				}
 
 				count = 0;
@@ -88,10 +80,6 @@ int convert (FILE *fp, int length, int highValue, int lowValue, int format)
 		}
 		count++;
 		i++;
-	}
-	if (format == 4)
-	{
-		fclose(storeFile);
 	}
 	return 1;
 }
