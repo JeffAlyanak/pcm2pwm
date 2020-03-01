@@ -188,7 +188,7 @@ int format_set()
 int print_usage()
 {
 	printf ("NAME\n");
-	printf ("        pcm2pwm - Convert pcm audio to differential pwm.\n");
+	printf ("        pcm2pwm 1.0 - Convert pcm audio to differential pwm.\n");
 	printf ("\nUSAGE\n");
 	printf ("        pcm2pwm [OPTIONS]... -i [FILE] \n");
 	printf ("\nOPTIONS\n");
