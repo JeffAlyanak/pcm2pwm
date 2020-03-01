@@ -10,9 +10,12 @@
  * code: jeff alyanak
 */
 
+#include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "pcm2pwm.h"
 #include "convert.h"
 #include "header.h"
 
@@ -20,63 +23,80 @@ FILE *fp;				// File pointer.
 int length = 0;			// File length in bytes.
 int highValue = 0xFC;	// Default high crossover.
 int lowValue = 0x03;	// Default low crossover
-int format = 0;			// Default (0) or HT2 format (1).
+int format = 0;			// Default (0), HT2 format (1), DASM format (2).
 
-int main (int argc, char *argv[])
+int format_h	= 0;
+
+char *file_name = NULL;
+
+int main (int argc, char **argv)
 {
-	if (argc == 1) // If no arguments are provided, return help info.
-	{
-		printf ("\nBasic usage: pcm2pwm input.wav\n\n");
-		printf ("Advanced usage: pcm2pwm input.wav X Y\n");
-		printf ("     Where X and Y represent high and low\n");
-		printf ("     crossovers. Defaults are 252 and 3.\n");
-		printf ("     (Values must be between 0 and 255.)\n");
-		printf ("ex: pcm2pwm sound.wav 230 20.\n\n");
-		printf ("You may also specify output formatted for\n");
-		printf ("Houston Tracker 2 using -h.\n");
-		printf ("For example: pcm2pwm -h input.wav\n");
-		printf ("     This can be used with or without\n");
-		printf ("     crossover values being specified.\n\n");
-		return 1;
-	}
+	// If no arguments are provided, return help info
+	if (argc == 1) return(print_usage());
 
-	if ((strncmp (argv[1], "-h", 2) == 0))
+	// getopt argument handling
+	int option_index = 0;
+	while (( option_index = getopt(argc, argv, "i:H:L:h")) != -1)
 	{
-		format = 1;
-	}
-	else if ((strncmp (argv[1], "-", 1) == 0))
-	{
-		printf ("Invalid argument. Refer to README.\n");
-		return 1;
-	}
-	// If crossover values are provided, convert them to integers and ensure they're between 0 and 255.
-	else if (argc > 3) 
-	{
-		highValue = atoi (argv[(2 + format)]);
-		lowValue = atoi (argv[(3 + format)]);
-
-		printf ("; The format is %d\n", format);
-		printf ("; High value is %d\n", highValue);
-		printf ("; Low value is %d\n", lowValue);
-
-		if (highValue > 255 || highValue < 0)
+		switch(option_index)
 		{
-			printf ("\nHigh crossover cannot be greater than 255 or lower than 0.\n\n");
-			return 1;
-		}
-		else if (lowValue < 0 || lowValue > 255)
-		{
-			printf ("\nLow crossover cannot be greater than 255 or lower than 0.\n\n");
-			return 1;
+			// Option: file name
+			case 'i':
+				file_name = optarg;
+				break;
+			// Option: high crossover
+			case 'H':
+				if (valid_crossover(optarg))
+				{
+					highValue = atoi(optarg);
+				}
+				break;
+			// Option: low crossover
+			case 'L':
+				if (valid_crossover(optarg))
+				{
+					lowValue = atoi(optarg);
+				}
+				break;
+			// Option: HT2 output mode
+			case 'h':
+				if (format_set())
+				{
+					printf("Error: Multiple format options selected!\n");
+					return 1;
+				}
+				format_h = 1;
+				break;
+			// Handle missing arguments
+			case '?':
+				if (
+					optopt == 'i' ||
+					optopt == 'H' ||
+					optopt == 'L'
+					)
+				{
+					printf("Option -%c requires an argument.\n", optopt);
+					return(print_usage());
+				}
+				return 1;
+			default:
+				printf("Invalid option\n");
+				return 1;
 		}
 	}
+
+	printf ("; The file is %s\n", file_name);
+	printf ("; The format is %d\n", format);
+	printf ("; High value is %d\n", highValue);
+	printf ("; Low value is %d\n", lowValue);
+
 
 	// Open file and ensure it opened correctly.
-	fp = fopen (argv[1 + format], "rb");
+	fp = fopen (file_name, "rb");
 	if (fp == NULL)
 	{
 		fprintf (stderr, "Error opening file.\n");
-		perror (argv[1 + format]);
+		perror (file_name);
 		return EXIT_FAILURE;
 	}
 
@@ -98,4 +118,51 @@ int main (int argc, char *argv[])
 	printf ("\n");
 
 	return (EXIT_SUCCESS);
+}
+
+// True if crossover value is valid
+int valid_crossover(char value[])
+{
+	int v = atoi(value);
+
+	if (v > 255 || v < 0)
+	{
+		printf ("\nWARNING: Crossover cannot be greater than 255 or less than 0. Using default instead\n\n");
+		return 0;
+	}
+	else
+	{
+		return 1;
+	}
+}
+
+// True if format already set.
+int format_set()
+{
+	if (format_h == 0 && format_dasm == 0)
+	{
+		return 0;
+	}
+	return 1;
+}
+
+// Print usage text
+int print_usage()
+{
+	printf ("NAME\n");
+	printf ("        pcm2pwm - Convert pcm audio to differential pwm.\n");
+	printf ("\nUSAGE\n");
+	printf ("        pcm2pwm [OPTIONS]... -i [FILE] \n");
+	printf ("\nOPTIONS\n");
+	printf ("        -i\n");
+	printf ("            input wav file (required)\n");
+	printf ("        -H\n");
+	printf ("            high crossover value, range 0-255 (default: 252)\n");
+	printf ("        -L\n");
+	printf ("            low crossover value, range 0-255 (default: 3)\n");
+	printf ("\nOUTPUT MODES\n");
+	// printf ("    only one may be selected\n");
+	printf ("        -h\n");
+	printf ("            Houston Tracker 2 output format (inverted values)\n");
+	return 1;
 }
