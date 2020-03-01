@@ -23,10 +23,11 @@ FILE *fp;				// File pointer.
 int length = 0;			// File length in bytes.
 int highValue = 0xFC;	// Default high crossover.
 int lowValue = 0x03;	// Default low crossover
-int format = 0;			// Default (0), HT2 format (1), DASM format (2).
+int format = 0;			// Default (0), HT2 format (1), DASM format (2), binary format (4).
 
 int format_h	= 0;
 int format_dasm = 0;
+int format_bin	= 0;
 
 char *file_name = NULL;
 
@@ -37,7 +38,7 @@ int main (int argc, char **argv)
 
 	// getopt argument handling
 	int option_index = 0;
-	while (( option_index = getopt(argc, argv, "i:H:L:hd")) != -1)
+	while (( option_index = getopt(argc, argv, "i:H:L:hdb")) != -1)
 	{
 		switch(option_index)
 		{
@@ -77,6 +78,15 @@ int main (int argc, char **argv)
 				}
 				format_dasm = 1;
 				break;
+			// Option: binary output mode
+			case 'b':
+				if (format_set())
+				{
+					printf("Error: Multiple format options selected!\n");
+					return 1;
+				}
+				format_bin = 1;
+				break;
 			// Handle missing arguments
 			case '?':
 				if (
@@ -96,7 +106,7 @@ int main (int argc, char **argv)
 	}
 
 	// Get actual format int
-	format =  (format_h | format_dasm << 1);
+	format =  (format_h | format_dasm << 1 | format_bin << 2);
 
 	// Open file and ensure it opened correctly.
 	fp = fopen (file_name, "rb");
