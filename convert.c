@@ -35,6 +35,7 @@ int convert (FILE *fp, int length, int highValue, int lowValue, int format)
 				if (newLine == 0)
 				{
 					printf ("\n");
+					if (format == 2) printf("\t");	// DASM tab format
 					printf (".byte ");
 					newLine++;
 				}
@@ -51,7 +52,15 @@ int convert (FILE *fp, int length, int highValue, int lowValue, int format)
 
 				if (count > 0xFF) count = 0xFF;	// This hardcoded truncation will mess with any extremely low frequncy sounds you have by preventing the period time from being any higher than 255. This frequency floor will be different depending on your playback routine rate.
 
-				printf ("$%02X", ( (1-format)*(count) + (format)*( (INT_MAX - count) - (INT_MAX - 0xFF) ) ));	// Print the period value in the correct format ($00-$FF).
+				// If HT2 format (inverted)
+				if (format == 1)
+				{
+					printf ("$%02X", (1*((INT_MAX - count) - (INT_MAX - 0xFF)))); 	// Print the period value in the inverted format ($FF-$00).
+				}
+				else
+				{
+					printf ("$%02X", (count));	// Print the period value in the standard format ($00-$FF).
+				}
 
 				count = 0;
 				oldState = flipState;
