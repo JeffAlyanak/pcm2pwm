@@ -20,12 +20,6 @@ int convert (FILE *infile, FILE *outfile, int length, int highValue, int lowValu
 	int i = 1;				// Byte position counter.
 	unsigned char c = 0;	// Byte buffer.
 
-	// This hardcoded truncation will mess with any extremely low frequnc
-	// sounds you have by preventing the period time from being any higher
-	// than 255. This frequency floor will be different depending on your
-	// playback routine rate.
-	if (count > 0xFF) count = 0xFF;
-
 	// Move through each byte in the file. Hardcoded to skip past the header.
 	while (i < length - 44)
 	{
@@ -39,35 +33,46 @@ int convert (FILE *infile, FILE *outfile, int length, int highValue, int lowValu
 
 			if (flipState != oldState)	// This is a zero cross-over, write out the time since last crossover (count) and reset it.
 			{
+				// This hardcoded truncation will mess with any extremely low frequency
+				// sounds you have by preventing the period time from being any higher
+				// than 255. This frequency floor will be different depending on your
+				// playback routine rate.
+
+				if (count > 0xFF) count = 0xFF;
 				if (format != 4)
 				{
 					if (newLine == 0)
-						{
-							printf ("\n");
-							if (format == 2) printf("\t");	// DASM tab format
-							printf (".byte ");
-							newLine++;
-						}
-						else if (newLine == 15)
-						{
-							printf (",");
-							newLine = 0;
-						}
-						else
-						{
-							printf (",");
-							newLine++;
-						}
+					{
+						printf ("\n");
+						if (format == 2) printf("\t");	// DASM tab format
+						printf (".byte ");
+						newLine++;
+					}
+					else if (newLine == 15)
+					{
+						printf (",");
+						newLine = 0;
+					}
+					else
+					{
+						printf (",");
+						newLine++;
+					}
 
-						// If HT2 format (inverted)
-						if (format == 1)
-						{
-							printf ("$%02X", (1*((INT_MAX - count) - (INT_MAX - 0xFF)))); 	// Print the period value in the inverted format ($FF-$00).
-						}
-						else
-						{
-							printf ("$%02X", (count));	// Print the period value in the standard format ($00-$FF).
-						}
+					// If HT2 format
+					if (format == 1)
+					{
+						// Zero bytes change can't be represented
+						if (count == 0) count=1;
+
+						// Print the period value in the frequency factor format ($01-$FF), rounded to nearest int.
+						printf ("$%02X", ((0xFF-(count+1)/2)/count)+1);
+					}
+					else
+					{
+						// Print the period value in the standard format ($00-$FF).
+						printf ("$%02X", (count));
+					}
 				}
 				else
 				{
