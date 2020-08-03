@@ -45,6 +45,11 @@ suitable for Houston Tracker 2.
 
 $ pcm2pwm -h -i input.wav <...>
 
+Remember that HT2 requires a <b>0x00</b> terminator after your sample data.
+
+For best results, ensure that the source sample frequency is around 16kHz to match the tracker speed (which
+is also depending on model & battery state).
+
 DASM, TABBED OUTPUT
 As of version 1.0, the -d option can be used to provide output suitable for use in DASM, which requires a
 tab at the start of each .byte statement.
@@ -100,3 +105,5 @@ Version History
 1.0   - Switched to POSIX-style options/arguments, added binary output modeto output
         directly to a binary file, added DASM output mode to append a `\t` to each
         line.
+1.1   - Fixed HoustonTracker 2 output to be frequency factor rather than cycle counts
+        and fixed clamping/truncation. Big thanks to thomasj for these fixes!

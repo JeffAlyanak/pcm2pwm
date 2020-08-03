@@ -40,7 +40,7 @@ As of version 0.8, you may also add the `-h` option before the input file to tog
 
 > _Remember that HT2 requires a <b>0x00</b> terminator after your sample data._
 
-> _It is suitable that the source sample frequency is around 16kHz to match the tracker speed (which is also depending on model & battery state)._
+> _For best results, ensure that the source sample frequency is around 16kHz to match the tracker speed (which is also depending on model & battery state)._
 
 ### DASM, tabbed output
 As of version 1.0, the `-d` option can be used to provide output suitable for use in DASM, which requires a tab at the start of each `.byte` statement.
@@ -86,3 +86,4 @@ Pretty simple, eh!
   * 0.8   - Added the -h option for outputting in a Houston Tracker 2 format.
   * 0.8.1 - Bugfix affecting the conversion process. Should produce better output than before.
   * 1.0   - Switched to POSIX-style options/arguments, added binary output mode to output directly to a binary file, added DASM output mode to append a `\t` to each line.
+  * 1.1   - Fixed HoustonTracker 2 output to be frequency factor rather than cycle counts and fixed clamping/truncation. Big thanks to thomasj for these fixes!
