@@ -40,6 +40,8 @@ As of version 0.8, you may also add the `-h` option before the input file to tog
 
 > _Remember that HT2 requires a <b>0x00</b> terminator after your sample data._
 
+> _It is suitable that the source sample frequency is around 16kHz to match the tracker speed (which is also depending on model & battery state)._
+
 ### DASM, tabbed output
 As of version 1.0, the `-d` option can be used to provide output suitable for use in DASM, which requires a tab at the start of each `.byte` statement.
 
